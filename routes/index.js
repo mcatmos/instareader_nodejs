@@ -44,13 +44,13 @@ router.post(
       if (req.file == undefined) {
         return res.status(400).send("Please upload an excel file!");
       }
-      console.log(req.file.path);
       const instaData = await getAccountsFromExcel(req.file.path);
       const accountsData = instaData.map((account) => {
         return getInstaData(account);
       });
 
       const promisesAchieved = await Promise.all(accountsData);
+      console.log(promisesAchieved)
       const response = promisesAchieved.map((prom) => {
         const {
           data: {
@@ -102,8 +102,8 @@ const getInstaData = async (account) => {
         },
       }
     );
-    console.log(response)
     const jsonResponse = await response.json();
+    console.log(jsonResponse)
     return jsonResponse;
   } catch (err) {
     console.warn(err);
