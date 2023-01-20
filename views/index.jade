@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1= InstaMagic
+  div.header
+    form(action="/perform" method="POST" enctype="multipart/form-data") 
+      input(type="file" name="excel")
+      button(type="submit") Upload
+  div
+    table
+      thead
+        tr 
+          th Name
+          th Account
+          th Highlighted Reels
+          th Is Private
+          th Is Pro
+          th Is Verified
+          th Followers
+      tbody
+        each account, i in accounts
+          tr
+            td=account.fullname
+            td: a(href="https://www.instagram.com/" + account.username)=account.username
+            td=account.reelsHighlighted
+            td=account.isPrivate
+            td=account.pro
+            td=account.is_verified
+            td=account.followers
