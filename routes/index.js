@@ -44,7 +44,7 @@ router.post(
       if (req.file == undefined) {
         return res.status(400).send("Please upload an excel file!");
       }
-
+      console.log(req.file.path)
       const instaData = await getAccountsFromExcel(req.file.path);
       const accountsData = instaData.map((account) => {
         return getInstaData(account);
