@@ -50,7 +50,6 @@ router.post(
       });
 
       const promisesAchieved = await Promise.all(accountsData);
-      console.log(promisesAchieved)
       const response = promisesAchieved.map((prom) => {
         const {
           data: {
@@ -102,8 +101,8 @@ const getInstaData = async (account) => {
         },
       }
     );
+    console.log(response)
     const jsonResponse = await response.json();
-    console.log(jsonResponse)
     return jsonResponse;
   } catch (err) {
     console.warn(err);
