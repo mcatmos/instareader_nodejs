@@ -51,33 +51,46 @@ router.post(
 
       const promisesAchieved = await Promise.all(accountsData);
       const response = promisesAchieved.map((prom) => {
-        const {
-          data: {
-            user: {
-              full_name,
-              highlight_reel_count,
-              is_business_account,
-              is_professional_account,
-              is_private,
-              is_verified,
-              profile_pic_url_hd,
-              username,
-              edge_followed_by: { count: followers },
+        if (prom && prom.data && prom.data.user) {
+          const {
+            data: {
+              user: {
+                full_name,
+                highlight_reel_count,
+                is_business_account,
+                is_professional_account,
+                is_private,
+                is_verified,
+                profile_pic_url_hd,
+                username,
+                edge_followed_by: { count: followers },
+              },
             },
-          },
-        } = prom;
-
-        return {
-          fullname: full_name,
-          reelsHighlighted: highlight_reel_count,
-          business: is_business_account,
-          pro: is_professional_account,
-          isPrivate: is_private,
-          is_verified: is_verified,
-          avatar: profile_pic_url_hd,
-          username: username,
-          followers,
-        };
+          } = prom;
+          return {
+            fullname: full_name,
+            reelsHighlighted: highlight_reel_count,
+            business: is_business_account,
+            pro: is_professional_account,
+            isPrivate: is_private,
+            is_verified: is_verified,
+            avatar: profile_pic_url_hd,
+            username: username,
+            followers,
+          };
+        } else {
+          return {
+            fullname: "not available",
+            reelsHighlighted: "not available",
+            business: "not available",
+            pro: "not available",
+            isPrivate: "not available",
+            is_verified: "not available",
+            avatar: "not available",
+            username: "not available",
+            followers: "not available",
+          };
+        }
       });
       res.render("index", {
         accounts: response.sort((a, b) => b.followers - a.followers),
@@ -101,7 +114,7 @@ const getInstaData = async (account) => {
         },
       }
     );
-    console.log(response)
+    console.log(response);
     const jsonResponse = await response.json();
     return jsonResponse;
   } catch (err) {
